@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Markdown from 'react-markdown';
-import data from "../data.json";
+
 
 
 export const MarkDown = (props) => {
 
     const [viewPreview, setviewPreview] = useState(true)
 
-    const [inputText, setInputText] = useState(data[1].content);
+    // const [inputText, setInputText] = useState(data[1].content);
+    const initialContent = typeof props.selectedDocument.content === 'object' ? props.selectedDocument.content.content : props.selectedDocument.content;
+    
+
+    const [inputText, setInputText] = useState(initialContent || "");
+
+    useEffect(() => {
+        // Update inputText when selectedDocument changes
+        setInputText(props.selectedDocument.content || "");
+    }, [props.selectedDocument.content]);
     let state = props.active;
+
+
+
 
     return (
         <div className={`flex ${state ? "" : "ml-[250px]" }  justify-center w-full h-screen`}>
